@@ -1,0 +1,434 @@
+Nowcoder---SQL
+
+顺丰
+
+1.SQL语言共分为三大类（亦有说法分为四大类），那么不属于数据操纵语言的有（）grant
+
+数据查询语言（DQL）：是由SELECT子句，FROM子句，WHERE子句组成的查询块
+数据操纵语言（DML）: SELECT(查询) INSERT(插入) UPDATE(更新) DELETE(删除）
+数据定义语言（DDL）：CREATE(创建数据库或表或索引）ALTER(修改表或者数据库）DROP(删除表或索引）
+数据控制语言（DCL）：GRANT(赋予用户权限） REVOKE(收回权限） DENY(禁止权限)
+事务控制语言（TCL）：SAVEPOINT (设置保存点）ROLLBACK (回滚) COMMIT(提交)
+
+
+2.MySQL是一种（ ）数据库管理系统。
+
+关系型
+
+14.快件信息表（waybillinfo）中存储了快件的所有操作信息，请找出在中山公园网点，异常派送（optype='异常派件'）次数超过3次的快件(waybillno),正确的sql为（）
+
+select waybillno from waybillinfo where zonecode='中山公园' and optype='异常派件'
+group by waybillno having count(*) > 3
+
+17.
+某打车公司将驾驶里程（drivedistanced）超过5000里的司机信息转移到一张称为seniordrivers 的表中,他们的详细情况被记录在表drivers 中，正确的sql为（）
+
+select * into seniordrivers from drivers where drivedistanced >=5000
+
+INSERT INTO 语句用于向表格中插入新的行。
+INSERT INTO table_name VALUES (值1, 值2,....)
+指定所要插入数据的列：
+INSERT INTO table_name (列1, 列2,...) VALUES (值1, 值2,....)
+SELECT INTO 语句从一个表中选取数据，然后把数据插入另一个表中。常用于创建表的备份复件或者用于对记录进行存档。
+把所有的列插入新表 
+SELECT *
+INTO new_table_name [IN externaldatabase] 
+FROM old_tablename
+只把希望的列插入新表 
+SELECT column_name(s)
+INTO new_table_name [IN externaldatabase] 
+FROM old_tablename
+
+19
+有一张学生成绩表sc（sno 学号，class 课程，score 成绩），请查询出每个学生的英语、数学的成绩（行转列，一个学生只有一行记录）。
+
+select sno,
+sum(if(class='english',score,0)) as english,
+sum( if(class='math',score,0) ) as math
+from sc
+where class in('english','math')
+group by sno
+
+24
+下面有关sql 语句中 delete truncate的说法正确的是？（）
+
+论清理表数据的速度，truncate一般比delete更快
+truncate只删除表的数据不删除表的结构
+
+1、处理效率：drop>trustcate>delete
+2、drop删除整个表；trustcate删除全部记录，但不删除表；delete删除部分记录
+3、delete不影响所用extent，高水线保持原位置不动；trustcate会将高水线复位。
+
+29
+表结构如下：
+
+CREATE TABLE `score` (
+   `id` int(11) NOT NULL AUTO_INCREMENT,
+   `sno` int(11) NOT NULL,
+   `cno` tinyint(4) NOT NULL,
+   `score` tinyint(4) DEFAULT NULL,
+   PRIMARY KEY (`id`)
+ ) ;
+以下查询语句结果一定相等的是（）
+A.SELECT sum(score) / count(*) FROM score WHERE cno = 2;
+
+B.SELECT sum(score) / count(id) FROM score WHERE cno = 2;
+
+C.SELECT sum(score) / count(sno) FROM score WHERE cno = 2;
+
+D.SELECT sum(score) / count(score) FROM score WHERE cno = 2;
+
+E.SELECT sum(score) / count(1) FROM score WHERE cno = 2;
+
+F.SELECT avg(score) FROM score WHERE cno = 2;
+
+
+select count(*)和select count(1)的区别：
+
+一般情况下，Select Count (*)和Select Count(1)两着返回结果是一样的。
+假如表没有主键(Primary key), 那么count(1)比count(*)快，
+如果有主键的话，那主键作为count的条件时候count(主键)最快，如果你的表只有一个字段的话那count(*)就是最快的。
+count(*) 跟 count(1) 的结果一样，都包括对NULL的统计，而count(column) 是不包括NULL的统计。
+
+35.
+SQL中，下面对于数据定义语言DDL描述正确的是（）
+
+定义数据库的结构
+
+DDL(Data Definition Language): 数据定义语言
+用来定义数据库对象:数据库，表,列等。 关键字：create,drop, alter等。
+DML(Data Manipulation Language): 数据操作语言
+用来对数据库中的表进行增删改操作。 关键字：insert,delete,update等。
+DQL(Data Query Language): 数据查询语言
+用来查询数据库中表的记录(数据)。 关键字:select, where等
+DCL(Data Control Language): 数据控制语言
+用来定义数据库的访问控制权限和安全级别，及创建用户。关键字: grant, revoke等
+
+
+用友
+
+25
+有订单表orders，包含字段用户信息userid，字段产品信息productid，以下语句能够返回至少被订购过两次的productid？（）
+
+select productid from orders where count（productid）>1
+select productid from orders group by productid having count（productid）>1
+
+27
+在SQL中语法规范中，having子句的使用下面描述正确的是：（    ）
+
+having子句即可包含聚合函数作用的字段也可包括普通的标量字段
+having子句必须于group by 子句同时使用，不能单独使用
+使用having子句的作用是限定分组条件
+如果select语句中没有聚合函数的使用，就不能使用having子句
+
+31. 
+SQL中属于分组查询的语句是？（）
+
+Group By
+
+区块链大致可以分为公有链（Public Blockchain）、私有链（Private Blockchain）以及联盟链（Consortium Blockchain）三大类。
+因此，联盟链属于区块链的一种。
+where筛选、group by分组、having与group by连用，用于筛选。
+
+
+小米
+
+4.设有图书管理数据库：
+图书(总编号C(6),分类号C(8),书名C(16),作者C(6),出版单位C(20),单价N(6,2))
+读者(借书证号C(4),单位C(8),姓名C(6),性别C(2),职称C(6),地址C(20))
+借阅(借书证号C(4),总编号C(6),借书日期D(8))
+对于图书管理数据库，查询0001号借书证的读者姓名和所借图书的书名。
+
+SQL语句正确的是______。
+SELECT 姓名,书名 FROM 借阅,图书,读者 WHERE;
+借阅.借书证号="0001" AND;
+_____
+____
+
+图书.总编号=借阅.总编号 AND;
+读者.借书证号=借阅.借书证号
+
+10.若要“查询选修了3门以上课程的学生的学号”，则正确的SQL语句是( )
+
+SELECT S# FROM SC GROUP BY S# HAVING COUNT(*)> 3
+
+21.有一个名为app的MySQL数据库表，其建表语句如下：
+CREATE TABLE `app` (
+`app_id` int(10) DEFAULT '0',//应用ID
+`version_code` int(10) DEFAULT '0',//应用的版本号
+`download_count` int(10) DEFAULT '0'//当前版本的下载量
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+
+当前表中数据记录如下，一条记录表示某个应用的某个版本的下载量记录：
++--------+--------------+----------------+
+| app_id | version_code | download_count |
++--------+--------------+----------------+
+|      1 |           10 |             90 |
+|      1 |           11 |            100 |
+|      1 |           10 |             20 |
+|      2 |           15 |             10 |
+|      2 |           16 |             15 |
+|      2 |           17 |             30 |
+|      2 |           16 |              5 |
+|      3 |            2 |             50 |
++--------+--------------+----------------+
+
+问： 下面那个MySQL语句可以查出每个应用中总下载量最大的版本号和次数（ ）？
+
+select t.app_id, t.version_code, max(t.download_sum) from 
+(select app_id, version_code, sum(download_count) download_sum from app
+group by app_id, version_code order by download_sum desc) 
+as t group by t.app_id;
+
+23
+SQL语句中，可以查看到学生信息表中，学生姓名的SQL语句为？（）
+
+select * from 学生信息
+select 学生姓名 from 学生信息
+
+30
+有两张表，如下图所示
+表A(仅列出部分数据作参考)
+Order_id     User_id    Add_time
+11701245001 10000    1498882474
+11701245002 10001    1498882475
+表B：(仅列出部分数据作参考)
+id     Order_id     goods_id price
+1   11701245001    1001     10
+2   11701245001    1002     20
+3   11701245002    1001     10
+问：用SQL查询 购买过goods_id 为1001的用户user_id（）
+
+select a.user_id from A a,B b where a.order_id=b.order_id and b.goods_id='1001'
+select user_id from A where order_id in (select order_id from B where goods_id = '1001')
+Select A.user_id from A left join B on A.order_id=B.order_id where B.goods_id='1001'
+
+33.
+
+检索所有比“王华”年龄大的学生姓名、年龄和性别。正确的SELECT语句是()
+
+SELECT SN，AGE，SEX FROM S
+WHERE AGE＞(SELECT AGE FROM S
+WHERE SN=“王华”)
+
+
+
+京东
+
+3.如果ORDER BY子句后未指定ASC或DESC，默认使用以下哪个？ 
+
+ASC
+
+7.select语句完整语法：
+
+1)    select  目标表的列名或列表达式序列
+
+2)    from 基本表名和（或）视图序列
+
+3)    [where 行条件表达式]
+
+4)    [group by  列名序列]
+
+[having  组条件表达式]
+
+5)    [order by 列名[asc | desc]]，则sql语句的执行顺序是：
+
+写法顺序：select--from--where--group by--having--order by 
+执行顺序：from--where--group by--having--select--order by
+就是select要放后面，如果有order by，则order by放最后，因为order by 是对结果进行排序
+
+sql执行顺序 
+(1)from 
+(3) join 
+(2) on 
+(4) where 
+(5)group by(开始使用select中的别名，后面的语句中都可以使用)
+(6) avg,sum.... 
+(7)having 
+(8) select 
+(9) distinct 
+(10) order by
+
+360
+
+5.某IT公司人事管理采用专门的人事管理系统来实现。后台数据库名为LF。新来的人事部张经理新官上任，第一件事是要对公司的员工做全面的了解。可是他在访问员工信息表EMPL里的工资和奖金字段的时被拒绝，只能查看该表其他字段。作为LF的开发者你将如何解决这一问题：（      ）
+
+授予张经理的数据库用户帐户对表EMPL里的工资列和奖金列的SELECT权限。
+
+db_accessadmin
+
+可以添加、删除用户的用户
+
+db_datareader
+
+可以查看所有数据库中用户表内数据的用户
+
+12
+比赛结果result表内容如下：
+Date                     Win
+2017-07-12               胜
+2017-07-12               负
+2017-07-15               胜
+2017-07-15               负
+如果要生成下列结果, 正确的sql语句是：（      ）
+比赛日期            胜     负
+2017-07-12          1      1
+2017-07-15          1      1
+
+select Date As 比赛日期, SUM(case when Win='胜' then 1 else 0 end) 胜, SUM(case when Win='负' then 1 else 0 end) 负 from result group by Date
+
+13
+一张学生成绩表score，部分内容如下：
+name       course     grade
+张三        操作系统      67
+张三        数据结构      86
+李四        软件工程      89
+用一条SQL 语句查询出每门课都大于80 分的学生姓名，SQL语句实现正确的是：（      ）
+
+Select distinct name from score where name not in(Select name from score where grade <= 80);
+
+15.下面哪些字符最可能会导致sql注入?
+
+‘（单引号）
+
+
+16.
+运动会比赛信息的数据库，有如下三个表：
+运动员ATHLETE（运动员编号 Ano，姓名Aname，性别Asex，所属系名 Adep）， 项目 ITEM （项目编号Ino，名称Iname，比赛地点Ilocation）， 成绩SCORE （运动员编号Ano，项目编号Ino，积分Score）。
+写出目前总积分最高的系名及其积分，SQL语句实现正确的是：（      ）
+
+SELECT Adep,SUM(Score)FROM ATHLETE,SCORE  WHERE ATHLETE.Ano=SCORE.Ano GROUP BY Adep  HAVING SUM(Score)>=ALL
+
+(SELECT SUM(Score) FROM ATHLETE,SCORE  WHERE ATHLETE.Ano=SCORE.Ano GROUP BY Adep)
+
+any 是任意一个 
+all 是所有
+
+any表示有任何一个满足就返回true，all表示全部都满足才返回true 
+
+18.查询显示雇员的姓名和姓名中是否含有字母A的信息，满足如下条件
+如果字符A在姓名的首位，则显示'字符A在首位'
+如果字符A在姓名的末位，则显示'字符A在末位'
+如果字符A在姓名中不存在，则显示'没有字符A'
+其他情况显示'字符A在中间'
+下列操作语句正确的是：（      ）
+
+select ename, case  charindex(‘A‘,ename)
+when 1 then ‘字符A在首位‘
+when len(ename) then
+‘字符A在末位‘
+when 0 then ‘没有字符A‘
+else ‘字符A在中间‘
+end 名称类别   from emp;
+
+通过CHARINDEX如果能够找到对应的字符串，则返回该字符串位置，否则返回0。 下标是直接显示第几位，不是像数组从0开始算的。
+
+20
+修改表test_tbl字段i的缺省值为1000，可以使用SQL语句（      ）
+
+ALTER TABLE test_tbl ALTER i SET DEFAULT 1000;
+
+alter table 表名 alter column 字段名 set default 默认值;
+CHANGE 用来修改字段名字以及类型
+modify 用来修改字段类型
+aiter column ... set  用来修改字段数据
+
+22
+雇员表EMP 结构如下
+(  雇员编号 EMPNO ,   姓名 ENAME ,
+工作岗位 JOB ,  管理员编号 MGR ,
+受雇时间 HIREDATE ,  工资 SAL ,
+奖金 COMM ,  部门编号 DEPTNO );
+下列操作语句正确的是：（      ）
+
+显示在10和30部门工作并且工资大于5500元的雇员的姓名和工资，列标题显示为Employee和Monthly Salary 语句：SELECT ENAME EMPLOYEE ,SAL &quot;MONTHLY SALARY&quot; FROM EMP WHERE DEPTNO IN(10,30)AND SAL&gt;5500;
+
+26
+使用SQL语句建个存储过程proc_stu，然后以student表中的学号Stu_ID为输入参数@s_no，返回学生个人的指定信息。下面创建存储过程语句正确的是：（      ）
+
+CREATE PROCEDURE [stu].[proc_student]
+@s_no AS int
+AS
+BEGIN
+select * from stu.student where Stu_ID=@s_no
+END
+
+CREATE PROCEDURE [stu].[proc_student]
+@s_no  int
+AS
+BEGIN
+select * from stu.student where Stu_ID=@s_no
+END
+
+31.
+SQL查询中使用WHere子句指出的是
+
+34.
+积分result表中有A B C D四列，要求：
+1）当A列值大于等于B列时，选择A列否则选择B列
+2）当C列值大于等于D列时，选择C列否则选择D列
+用SQL语句实现正确的是：（      ）
+
+select (case when A&gt;=B then A else B end) MAX_AB, (case when C&gt;=D then C else D end) MAX_CD from result
+
+查询条件
+
+爱奇艺
+
+6.某软件公司正在升级一套水务管理系统。该系统用于县市级供排水企业、供水厂、排水厂中水务数据的管理工作。系统经重新整合后，开发人员决定不再使用一张备份数据表waterinfo001表，需永久删除。选出符合要求的语句。 
+
+DROP TABLE waterinfo001
+
+1. drop是完全删除表，包括表结构
+2. delete是删除表数据，保留表的结构，而且可以加where,只删除一行或者多行
+3. truncate 只能删除表数据，会保留表结构，而且不能加where
+
+8.请取出 BORROW表中日期(RDATE字段)为当天的所有记录？(RDATE字段为datetime型，包含日期与时间)。SQL语句实现正确的是：（      ）
+
+select * from BORROW where datediff(dd,RDATE,getdate())=0
+
+DATEDIFF(datepart,startdate,enddate)
+datepart	缩写
+年	yy, yyyy
+季度	qq, q
+月	mm, m
+年中的日	dy, y
+日	dd, d
+周	wk, ww
+星期	dw, w
+小时	hh
+分钟	mi, n
+秒	ss, s
+毫秒	ms
+微妙	mcs
+纳秒	ns
+
+9.大学生春季运动会的数据库，保存了比赛信息的三个表如下：
+运动员 sporter（运动员编号 sporterid，姓名name，性别 sex，所属系号 department），
+项目 item（项目编号 itemid，名称 itemname，比赛地点 location）， 成绩 grade（运动员编号 id，项目编号 itemid，积分 mark）。
+用SQL语句完成在“体育馆”进行比赛的各项目名称及其冠军的姓名，正确的是：（      ）。
+
+SELECT i.itemname,s.name FROM grade g,(SELECT itemid iid,MAX(mark) max  FROM grade   WHERE itemid IN ( SELECT itemid FROM item  WHERE location='体育馆')         GROUP BY itemid) temp,item i,sporter s WHERE g.itemid=temp.iid AND g.mark=temp.max AND temp.iid=i.itemid AND s.sporterid=g.sporterid;
+
+1，首先找出在“体育馆”中进行的比赛项目id；
+SELECT itemid
+FROM item
+WHERE location='体育馆'
+2，然后在成绩表中根据项目id进行分组后找出单个项目最高分；
+SELECT itemid iid,MAX(mark) max 
+FROM grade 
+WHERE itemid IN ( SELECT itemid FROM item WHERE location='体育馆') //条件限制地点在体育馆
+GROUP BY itemid
+3，接下来将上面含有项目id和项目最高分信息的表与另外三张表连接；
+grade g, (上面含有项目最高分信息的表) temp, item i,sporter s 
+WHERE g.itemid=temp.iid 
+AND g.mark=temp.max 
+AND temp.iid=i.itemid 
+AND s.sporterid=g.sporterid
+4，最后按要求从连接后的表中选出项目名称和冠军姓名。
+SELECT i.itemname,s.name 
+FROM （以上连接后的表）
+
+11.某学院包含多个专业如计算机科学、信息管理、软件工程、网络工程。每个专业每年都招收一个班级的学生。在招生过程中就已明确规定，一个学生只能就读于该学院的一个班级，但是一个班级可以招收不超过60个学生。那么，学生和班级之间是________的关系。
+
+多对一
